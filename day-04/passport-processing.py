@@ -2,7 +2,7 @@ from io import TextIOBase
 import pathlib
 import re
 
-PUZZLE_INPUT = "puzzle-input.txt"
+PUZZLE_INPUT = "input.txt"
 REQUIRED_FIELDS = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
 EYE_COLORS = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
 
