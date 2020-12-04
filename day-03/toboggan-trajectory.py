@@ -43,7 +43,7 @@ if __name__ == "__main__":
     # unittest.main()
 
     import pathlib
-    with (pathlib.Path(__file__).parent / "puzzle-input.txt").open() as input_file:
+    with (pathlib.Path(__file__).parent / "input.txt").open() as input_file:
         input_map = [line.strip() for line in input_file if line.strip()]
         print(f"Part 1 Answer: {toboggan_trajectory_1(input_map, [3,1])}")
         print(f"Part 2 Answer: {toboggan_trajectory_2(input_map, [1,1], [3,1], [5,1], [7,1], [1,2])}")
