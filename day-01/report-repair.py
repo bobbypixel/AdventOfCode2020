@@ -26,7 +26,7 @@ if __name__ == "__main__":
     # unittest.main()
     
     dirname = os.path.dirname(__file__)
-    puzzle_input = os.path.join(dirname, 'puzzle-input.txt')
+    puzzle_input = os.path.join(dirname, "input.txt")
 
     with open(puzzle_input) as f:
         lineList = f.readlines()
