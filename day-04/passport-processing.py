@@ -39,8 +39,10 @@ def passport_processing_2(passports: list[str]) -> int:
                         if 2020 <= int(n) <= 2030:
                             field_counter += 1
                     elif i == 3:
-                        if (n[-2:] == "cm" and 150 <= int(n[:-2]) <= 193) or \
-                        (n[-2:] == "in" and 59 <= int(n[:-2]) <= 76):
+                        if (
+                            (n[-2:] == "cm" and 150 <= int(n[:-2]) <= 193) or
+                            (n[-2:] == "in" and 59 <= int(n[:-2]) <= 76)
+                        ):
                             field_counter += 1
                     elif i == 4:
                         if n[0] == "#" and re.match(r"^[a-f0-9]{6}$", n[1:]):
