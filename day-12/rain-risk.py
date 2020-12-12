@@ -7,7 +7,7 @@ TEST_INPUT = "test-input.txt"
 
 def rain_risk_1(nav_instructions: list[list[str, int]]) -> int:
     ship_location = [0, 0, 0, 0] # [W, N, E, S]
-    ship_direction = 180
+    ship_direction = 180 # Ship starts facing east
     for action,value in nav_instructions:
         if action == 'N':
             ship_location[1] += value
@@ -18,15 +18,13 @@ def rain_risk_1(nav_instructions: list[list[str, int]]) -> int:
         elif action == 'W':
             ship_location[0] += value
         elif action == 'L':
-            ship_direction -= value
+            ship_direction += -value
         elif action == 'R':
             ship_direction += value
         elif action == 'F':
             direction = (ship_direction % 360) // 90
             ship_location[direction] += value
-    east_west_pos = ship_location[0] - ship_location[2]
-    north_south_pos = ship_location[1] - ship_location[3]
-    return abs(east_west_pos) + abs(north_south_pos)
+    return abs(ship_location[0] - ship_location[2]) + abs(ship_location[1] - ship_location[3])
 
 def rain_risk_2(nav_instructions: list[list[str, int]]) -> int:
     ship_location = [0, 0, 0, 0] # [W, N, E, S]
@@ -41,50 +39,20 @@ def rain_risk_2(nav_instructions: list[list[str, int]]) -> int:
         elif action == 'W':
             waypoint_location[0] += value
         elif action == 'L':
-            waypoint_location = calculate_waypoint_location(waypoint_location)
-            new_waypoint_location = [0, 0, 0, 0]
-            direction = (value % 360) // 90
-            for i in range(len(waypoint_location)):
-                if waypoint_location[i] > 0:
-                    new_waypoint_location[(i-direction) % 4] = waypoint_location[i]
-            waypoint_location = new_waypoint_location
+            waypoint_location = rotate_waypoint(waypoint_location, value, action)
         elif action == 'R':
-            waypoint_location = calculate_waypoint_location(waypoint_location)
-            new_waypoint_location = [0, 0, 0, 0]
-            direction = (value % 360) // 90
-            for i in range(len(waypoint_location)):
-                if waypoint_location[i] > 0:
-                    new_waypoint_location[(i+direction) % 4] = waypoint_location[i]
-            waypoint_location = new_waypoint_location
+            waypoint_location = rotate_waypoint(waypoint_location, value, action)
         elif action == 'F':
             for i,j in enumerate(waypoint_location):
                 ship_location[i] += j * value
-    east_west_pos = ship_location[0] - ship_location[2]
-    north_south_pos = ship_location[1] - ship_location[3]
-    return abs(east_west_pos) + abs(north_south_pos)
+    return abs(ship_location[0] - ship_location[2]) + abs(ship_location[1] - ship_location[3])
 
-def calculate_waypoint_location(waypoint_location: list[int]) -> list[int]:
-    if waypoint_location[0] > waypoint_location[2]:
-        waypoint_location[0] = waypoint_location[0] - waypoint_location[2]
-        waypoint_location[2] = 0
-    elif waypoint_location[2] > waypoint_location[0]:
-        waypoint_location[2] = waypoint_location[2] - waypoint_location[0]
-        waypoint_location[0] = 0
-    else:
-        waypoint_location[2] = 0
-        waypoint_location[0] = 0
-
-    if waypoint_location[1] > waypoint_location[3]:
-        waypoint_location[1] = waypoint_location[1] - waypoint_location[3]
-        waypoint_location[3] = 0
-    elif waypoint_location[3] > waypoint_location[1]:
-        waypoint_location[3] = waypoint_location[3] - waypoint_location[1]
-        waypoint_location[1] = 0
-    else:
-        waypoint_location[3] = 0
-        waypoint_location[1] = 0
-
-    return waypoint_location
+def rotate_waypoint(waypoint_location: list[int], value: int, action: chr) -> list[int]:
+    new_waypoint_location = [0, 0, 0, 0]
+    direction = (value % 360) // 90 * ({'L': -1, 'R': 1}[action])
+    for i in range(len(waypoint_location)):
+        new_waypoint_location[(i+direction) % 4] = waypoint_location[i]
+    return new_waypoint_location
 
 def process_input(file_name: str) -> list[int]:
     with (pathlib.Path(__file__).parent / file_name).open() as input_file:
