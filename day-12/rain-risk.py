@@ -49,7 +49,7 @@ def rain_risk_2(nav_instructions: list[list[str, int]]) -> int:
 
 def rotate_waypoint(waypoint_location: list[int], value: int, action: chr) -> list[int]:
     new_waypoint_location = [0, 0, 0, 0]
-    direction = (value % 360) // 90 * ({'L': -1, 'R': 1}[action])
+    direction = (value % 360) // 90 * {'L': -1, 'R': 1}[action]
     for i in range(len(waypoint_location)):
         new_waypoint_location[(i+direction) % 4] = waypoint_location[i]
     return new_waypoint_location
